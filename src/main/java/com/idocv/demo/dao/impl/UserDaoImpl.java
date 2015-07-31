@@ -4,7 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.annotation.Resource;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,8 +18,11 @@ import com.idocv.demo.po.User;
 @Repository
 public class UserDaoImpl implements UserDao {
 
-	@Autowired
+	@Resource
 	private JdbcTemplate jdbcTemplate;
+	
+	@Resource
+	private SessionFactory sessionFactory;
 
 	@Override
 	public User create(User user) {
@@ -56,8 +62,10 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> list(String query) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.openSession();
+		List<User> list = session.createQuery("from User").list();
+		session.close();
+		return list;
 	}
 
 }

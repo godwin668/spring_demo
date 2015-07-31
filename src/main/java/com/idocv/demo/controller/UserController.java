@@ -1,6 +1,7 @@
 package com.idocv.demo.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -71,6 +72,16 @@ public class UserController {
 	public User get(Model model, @PathVariable int id) {
 		User user = userService.get(id);
 		return user;
+	}
+
+	/**
+	 * list user
+	 */
+	@ResponseBody
+	@RequestMapping(value = "list")
+	public List<User> list(Model model) {
+		List<User> users = userService.list("");
+		return users;
 	}
 
 }
