@@ -47,7 +47,7 @@ public class UserController {
 		User user = new User();
 		user.setName(name);
 		user.setAge(age);
-		user = userService.create(user);
+		user = userService.save(user);
 		model.addAttribute("user", user);
 		return "user";
 	}
@@ -58,10 +58,30 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "delete/{id}")
 	public Map<String, Object> delete(Model model, @PathVariable int id) {
-		boolean result = userService.delete(id);
+		userService.delete(id);
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("result", result);
+		map.put("msg", "success");
 		return map;
+	}
+
+	/**
+	 * update user
+	 */
+	@ResponseBody
+	@RequestMapping(value = "update/{id}")
+	public User update(Model model, @PathVariable int id,
+			@RequestParam(value = "name", required = false) String name,
+			@RequestParam(value = "age", required = false) int age) {
+		User user = new User();
+		user.setId(id);
+		if (null != name) {
+			user.setName(name);
+		}
+		if (0 < age) {
+			user.setAge(age);
+		}
+		userService.update(user);
+		return user;
 	}
 
 	/**

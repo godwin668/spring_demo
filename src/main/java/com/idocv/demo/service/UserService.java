@@ -6,11 +6,11 @@ import com.idocv.demo.po.User;
 
 public interface UserService {
 
-	public User create(User user);
+	public User save(User user);
 
-	public boolean delete(long id);
+	public void delete(long id);
 
-	public User update(User user);
+	public void update(User user);
 
 	public User get(long id);
 

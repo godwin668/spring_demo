@@ -53,8 +53,20 @@
     <div class="container">
 
       <div class="starter-template">
-        <h1>User Demo</h1>
+        <h1>Create User</h1>
         <form class="form-inline" action="/user/create" >
+		    <div class="form-group">
+		        <label class="sr-only" for="inputName">姓名</label>
+		        <input type="username" class="form-control" id="inputName" name="name" placeholder="姓名">
+		    </div>
+		    <div class="form-group">
+		        <label class="sr-only" for="inputAge">Password</label>
+		        <input type="age" class="form-control" id="inputAge" name="age" placeholder="年龄">
+		    </div>
+		    <button type="submit" class="btn btn-primary">提交</button>
+		</form>
+		<h1>Update User</h1>
+        <form class="form-inline" action="/user/update/1" >
 		    <div class="form-group">
 		        <label class="sr-only" for="inputName">姓名</label>
 		        <input type="username" class="form-control" id="inputName" name="name" placeholder="姓名">
