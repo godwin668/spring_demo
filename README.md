@@ -1,8 +1,7 @@
-# spring_demo
-
-Spring MVC Demo
+# Spring MVC Hibernate Demo
 
 ----------
+
 ## Hibernate 配置
 1. 数据库实体必须设置以下主键
 @Entity
