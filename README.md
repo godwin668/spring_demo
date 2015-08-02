@@ -3,9 +3,10 @@
 ----------
 
 ## Hibernate 配置
-1. 数据库实体必须设置以下主键
-@Entity
-@Id
+1. 数据库实体必须设置以下注解
+
+	@Entity
+	@Id
 
 2. 自增主键必须设置以下注解，否则报错
 @GeneratedValue(strategy = GenerationType.IDENTITY)
