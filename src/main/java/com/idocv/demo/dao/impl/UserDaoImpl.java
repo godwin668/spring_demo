@@ -1,71 +1,52 @@
 package com.idocv.demo.dao.impl;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-import javax.annotation.Resource;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.idocv.demo.dao.UserDao;
 import com.idocv.demo.po.User;
 
 @Repository
-public class UserDaoImpl implements UserDao {
-
-	@Resource
-	private JdbcTemplate jdbcTemplate;
-	
-	@Resource
-	private SessionFactory sessionFactory;
+public class UserDaoImpl extends BaseDaoImpl implements UserDao {
 
 	@Override
-	public User create(User user) {
-		String name = user.getName();
-		int age = user.getAge();
-		int result = jdbcTemplate.update("insert into user(name, age) values(?, ?)", name, age);
-		System.out.println("create user result: " + result);
+	public User save(User user) {
+//		String name = user.getName();
+//		int age = user.getAge();
+//		int result = jdbcTemplate.update("insert into user(name, age) values(?, ?)", name, age);
+//		System.out.println("create user result: " + result);
+		long id = (long) getHibernateTemplate().save(user);
+		user.setId(id);
 		return user;
 	}
 
 	@Override
-	public boolean delete(long id) {
-		// TODO Auto-generated method stub
-		return false;
+	public void delete(long id) {
+		User user = get(id);
+		getHibernateTemplate().delete(user);
+		getHibernateTemplate().flush();
 	}
 
 	@Override
-	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public void update(User user) {
+		getHibernateTemplate().update(user);
+		getHibernateTemplate().flush();
 	}
 
 	@Override
 	public User get(long id) {
-		User user = jdbcTemplate.queryForObject("select * from user where id = ?", new Object[]{id}, new RowMapper<User>() {
-			@Override
-			public User mapRow(ResultSet rs, int rowNum) throws SQLException {
-				User user = new User();
-						user.setId(rs.getLong("id"));
-						user.setName(rs.getString("name"));
-						user.setAge(rs.getInt("age"));
-						return user;
-			}
-		});
-		return user;
+		List<User> list = (List<User>) getHibernateTemplate().find("from " + User.class.getSimpleName() + " where id=?", id);
+		if (null != list && !list.isEmpty()) {
+			return list.get(0);
+		} else {
+			return null;
+		}
 	}
 
 	@Override
 	public List<User> list(String query) {
-		Session session = sessionFactory.openSession();
-		List<User> list = session.createQuery("from User").list();
-		session.close();
-		return list;
+		return (List<User>) getHibernateTemplate().find("from " + User.class.getSimpleName());
 	}
 
 }
